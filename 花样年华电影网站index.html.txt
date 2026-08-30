@@ -1,0 +1,512 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>花样年华 | In the Mood for Love</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'STSong', 'SimSun', serif;
+            background: linear-gradient(to bottom, #1a1410, #2d1f1a);
+            color: #d4c5b0;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect fill="%23461e1a" width="1920" height="1080"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.03) 0px,
+                transparent 1px,
+                transparent 2px,
+                rgba(0,0,0,0.03) 3px
+            );
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+            color: #f4e4d0;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            z-index: 1;
+        }
+
+        .hero-subtitle {
+            font-size: 2rem;
+            font-style: italic;
+            letter-spacing: 0.2em;
+            color: #c4a57b;
+            opacity: 0.9;
+            z-index: 1;
+        }
+
+        .hero-year {
+            position: absolute;
+            bottom: 50px;
+            font-size: 1.2rem;
+            letter-spacing: 0.5em;
+            color: #8a7355;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 20, 16, 0.95);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(196, 165, 123, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            letter-spacing: 0.3em;
+            color: #f4e4d0;
+            font-weight: 300;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #c4a57b;
+            text-decoration: none;
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #f4e4d0;
+        }
+
+        section {
+            padding: 8rem 10%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin-bottom: 3rem;
+            color: #f4e4d0;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 2px;
+            background: #c4a57b;
+            margin: 1.5rem auto 0;
+        }
+
+        .synopsis {
+            background: rgba(45, 31, 26, 0.6);
+            border-left: 3px solid #8a6f47;
+        }
+
+        .synopsis-content {
+            font-size: 1.3rem;
+            line-height: 2.2;
+            text-align: justify;
+            color: #d4c5b0;
+            text-indent: 2em;
+        }
+
+        .director {
+            background: rgba(35, 25, 20, 0.4);
+        }
+
+        .director-card {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 4rem;
+            align-items: center;
+            padding: 3rem;
+            background: rgba(70, 50, 40, 0.3);
+            border-radius: 8px;
+        }
+
+        .director-image {
+            width: 300px;
+            height: 400px;
+            background: linear-gradient(135deg, #5a4a3a, #3a2a1a);
+            border: 2px solid #8a7355;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #8a7355;
+            letter-spacing: 0.1em;
+        }
+
+        .director-info h3 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            color: #f4e4d0;
+        }
+
+        .director-info p {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: #c4a57b;
+        }
+
+        .cast {
+            background: rgba(26, 20, 16, 0.6);
+        }
+
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+
+        .cast-member {
+            background: rgba(70, 50, 40, 0.25);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(138, 115, 85, 0.3);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .cast-member:hover {
+            transform: translateY(-5px);
+            border-color: rgba(196, 165, 123, 0.6);
+        }
+
+        .cast-member h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: #f4e4d0;
+            margin-bottom: 0.5rem;
+        }
+
+        .cast-role {
+            font-size: 1rem;
+            color: #8a7355;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .cast-bio {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: #c4a57b;
+        }
+
+        .themes {
+            background: rgba(35, 25, 20, 0.5);
+        }
+
+        .theme-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .theme-card {
+            background: rgba(70, 50, 40, 0.3);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-radius: 8px;
+            border-top: 3px solid #8a6f47;
+            transition: background 0.3s;
+        }
+
+        .theme-card:hover {
+            background: rgba(90, 70, 60, 0.4);
+        }
+
+        .theme-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .theme-card h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: #f4e4d0;
+            margin-bottom: 1rem;
+        }
+
+        .theme-card p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #c4a57b;
+        }
+
+        .awards {
+            background: rgba(26, 20, 16, 0.7);
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .award-item {
+            background: rgba(70, 50, 40, 0.25);
+            padding: 2rem;
+            border-left: 4px solid #c4a57b;
+            border-radius: 4px;
+        }
+
+        .award-name {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #f4e4d0;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .award-detail {
+            font-size: 1rem;
+            color: #8a7355;
+            line-height: 1.8;
+        }
+
+        footer {
+            background: #1a1410;
+            padding: 3rem 10%;
+            text-align: center;
+            border-top: 1px solid rgba(138, 115, 85, 0.3);
+        }
+
+        .footer-content {
+            color: #8a7355;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            line-height: 2;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.5rem;
+            text-align: center;
+            color: #c4a57b;
+            padding: 4rem 0;
+            letter-spacing: 0.05em;
+            line-height: 2.2;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .nav-links { gap: 1.5rem; font-size: 0.9rem; }
+            .cast-grid, .theme-list, .awards-grid { grid-template-columns: 1fr; }
+            .director-card { grid-template-columns: 1fr; }
+            section { padding: 5rem 5%; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">花样年华</div>
+        <ul class="nav-links">
+            <li><a href="#synopsis">剧情</a></li>
+            <li><a href="#director">导演</a></li>
+            <li><a href="#cast">演员</a></li>
+            <li><a href="#themes">主题</a></li>
+            <li><a href="#awards">荣誉</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <h1 class="hero-title">花样年华</h1>
+        <p class="hero-subtitle">In the Mood for Love</p>
+        <div class="hero-year">2 0 0 0</div>
+    </div>
+
+    <section id="synopsis" class="synopsis">
+        <h2>剧情概要</h2>
+        <p class="synopsis-content">
+            1960年代的香港，报馆编辑周慕云与妻子搬入新居，恰巧遇到隔壁也搬来一对夫妇——航运公司经理之妻苏丽珍。两家关系融洽，常结伴出行。然而某日，周慕云与苏丽珍发现各自的配偶似乎有了婚外情，而对象恰恰是对方的伴侣。在震惊与痛苦中，两人开始频繁见面，试图拼凑出真相的碎片。在这个过程中，他们逐渐产生了复杂而克制的情愫。面对道德的边界与内心的挣扎，周慕云与苏丽珍在狭窄的空间里演绎着一段欲说还休的情感纠葛，最终选择了各自的人生轨迹，留下了永恒的遗憾与美学上的余韵。
+        </p>
+    </section>
+
+    <div class="quote">
+        "那些消逝了的岁月，仿佛隔着一块积着灰尘的玻璃，看得到，抓不着。"<br>
+        <span style="font-size: 1rem; opacity: 0.7;">— 《花样年华》</span>
+    </div>
+
+    <section id="director" class="director">
+        <h2>导演</h2>
+        <div class="director-card">
+            <div class="director-image">
+                王家卫<br>导演肖像
+            </div>
+            <div class="director-info">
+                <h3>王家卫</h3>
+                <p>
+                    王家卫（Wong Kar-wai），1958年生于上海，香港著名导演、编剧、制片人。其作品以独特的视觉风格、非线性叙事与浓厚的怀旧气息著称，被誉为当代华语电影美学大师。
+                </p>
+                <p style="margin-top: 1.5rem;">
+                    代表作包括《阿飞正传》《重庆森林》《春光乍泄》《2046》等。《花样年华》是其美学巅峰之作，以极致的克制、优雅的构图与时间的质感，探讨了爱情、欲望与遗憾的永恒命题，获得戛纳电影节最佳男主角及技术大奖，奠定了其在世界影坛的地位。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="cast" class="cast">
+        <h2>主要演员</h2>
+        <div class="cast-grid">
+            <div class="cast-member">
+                <h3>梁朝伟</h3>
+                <p class="cast-role">饰 周慕云</p>
+                <p class="cast-bio">
+                    香港殿堂级演员，以其深邃的眼神与细腻的表演闻名。在《花样年华》中，梁朝伟将周慕云的内敛、痛苦与克制诠释得入木三分，凭借此角色荣获第53届戛纳电影节最佳男主角，成为首位获此殊荣的华人演员。
+                </p>
+            </div>
+            <div class="cast-member">
+                <h3>张曼玉</h3>
+                <p class="cast-role">饰 苏丽珍</p>
+                <p class="cast-bio">
+                    华语影坛传奇女星，以优雅气质与精湛演技著称。在片中，张曼玉通过20余套精美旗袍与细腻的肢体语言，塑造了苏丽珍这一复杂、矜持而动人的女性形象，将东方女性的含蓄美演绎至极致。
+                </p>
+            </div>
+            <div class="cast-member">
+                <h3>潘迪华</h3>
+                <p class="cast-role">饰 孙太太（房东）</p>
+                <p class="cast-bio">
+                    香港资深演员与歌手，在片中饰演周慕云的房东孙太太。她的表演为影片增添了市井生活的烟火气与时代氛围，成为连接主角情感世界与外部环境的重要桥梁。
+                </p>
+            </div>
+            <div class="cast-member">
+                <h3>张耀扬</h3>
+                <p class="cast-role">饰 何先生（苏丽珍的丈夫）</p>
+                <p class="cast-bio">
+                    虽未正面出镜，但何先生的存在贯穿全片，成为推动情节发展的关键隐线。这种"缺席的在场"手法，强化了影片的留白美学与观众的想象空间。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="themes" class="themes">
+        <h2>核心主题</h2>
+        <div class="theme-list">
+            <div class="theme-card">
+                <div class="theme-icon">🕰️</div>
+                <h3>时间与怀旧</h3>
+                <p>通过慢镜头、重复的日常与复古配乐，影片构建了一种凝滞的时间感，将1960年代的香港定格为永恒的记忆空间。</p>
+            </div>
+            <div class="theme-card">
+                <div class="theme-icon">🚪</div>
+                <h3>空间与距离</h3>
+                <p>狭窄的楼道、昏暗的房间与隔墙相望的居所，空间的压迫与隔离成为情感克制与道德边界的物理隐喻。</p>
+            </div>
+            <div class="theme-card">
+                <div class="theme-icon">💔</div>
+                <h3>欲望与克制</h3>
+                <p>两位主角在发现配偶出轨后，陷入复杂的情感漩涡。然而他们选择了克制，拒绝成为对方的复制品，展现了人性的尊严与道德的张力。</p>
+            </div>
+            <div class="theme-card">
+                <div class="theme-icon">🎭</div>
+                <h3>身份与角色扮演</h3>
+                <p>周慕云与苏丽珍通过"排练"各自配偶的行为，试图理解背叛。这种角色扮演模糊了真实与虚构的边界，揭示了身份的流动性。</p>
+            </div>
+            <div class="theme-card">
+                <div class="theme-icon">🌧️</div>
+                <h3>孤独与遗憾</h3>
+                <p>影片弥漫着无法言说的孤独感。两人错过的不仅是爱情，更是时代变迁中个体无法挽回的命运与选择。</p>
+            </div>
+            <div class="theme-card">
+                <div class="theme-icon">🎨</div>
+                <h3>美学与形式</h3>
+                <p>精致的构图、旗袍的流动、爵士乐的萦绕，王家卫将电影提升为视听艺术的极致体验，形式本身即是内容。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="awards" class="awards">
+        <h2>荣誉与奖项</h2>
+        <div class="awards-grid">
+            <div class="award-item">
+                <div class="award-name">第53届戛纳电影节</div>
+                <div class="award-detail">最佳男主角（梁朝伟）<br>技术大奖（杜可风、李屏宾、张叔平）</div>
+            </div>
+            <div class="award-item">
+                <div class="award-name">香港电影金像奖</div>
+                <div class="award-detail">最佳电影、最佳导演、最佳男主角、最佳女主角、最佳摄影等14项提名，获5项大奖</div>
+            </div>
+            <div class="award-item">
+                <div class="award-name">台湾金马奖</div>
+                <div class="award-detail">最佳剧情片、最佳导演、最佳男主角、最佳摄影、最佳造型设计等多项提名与获奖</div>
+            </div>
+            <div class="award-item">
+                <div class="award-name">国际影评界</div>
+                <div class="award-detail">入选BBC"21世纪最伟大的100部电影"第二位<br>多次被评为影史最美电影之一</div>
+            </div>
+            <div class="award-item">
+                <div class="award-name">凯萨奖</div>
+                <div class="award-detail">最佳外语片提名</div>
+            </div>
+            <div class="award-item">
+                <div class="award-name">美国国家影评人协会</div>
+                <div class="award-detail">最佳外语片</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="quote">
+        "如果有多一张船票，你会不会跟我走？"<br>
+        <span style="font-size: 1rem; opacity: 0.7;">— 致敬《阿飞正传》</span>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>《花样年华》© 2000 Block 2 Pictures / Jet Tone Production</p>
+            <p style="margin-top: 1rem;">王家卫作品 | 梁朝伟 张曼玉 主演</p>
+            <p style="margin-top: 1.5rem; opacity: 0.6;">本网站为展示用途 | 所有内容版权归原作者所有</p>
+        </div>
+    </footer>
+</body>
+</html>
